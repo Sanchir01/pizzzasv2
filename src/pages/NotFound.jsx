@@ -1,4 +1,5 @@
-import NotFoundBlock from '../components/NotFoundBlock/Index';
+// @ts-ignore
+import NotFoundBlock from '../components/NotFoundBlock';
 
 const NotFound = () => {
 	return <NotFoundBlock />;
