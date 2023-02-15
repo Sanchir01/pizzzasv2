@@ -8,18 +8,18 @@ import PizzaBlock from '../components/PizzaBlock';
 import Pagination from '../components/Pagination';
 
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
-import { Link } from 'react-router-dom';
 import { RootState, useAppDispatch } from '../redux/store';
 
-const Home = () => {
+const Home: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { sort, categoryId, currentPage, searchValue } = useSelector(
 		(state: RootState) => state.filter
 	);
 	const { status, items } = useSelector(selectPizzaData);
-	const onChangeCategory = (id: number) => {
+
+	const onChangeCategory = React.useCallback((id: number) => {
 		dispatch(setCategoryId(id));
-	};
+	}, []);
 	const onChangePage = (page: number) => {
 		dispatch(setCurrentPage(page));
 	};
@@ -44,11 +44,7 @@ const Home = () => {
 		feactP();
 	}, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-	const pizzas = items.map(obj => (
-		<Link to={`/pizza/${obj.id}`} key={obj.id}>
-			<PizzaBlock {...obj} />
-		</Link>
-	));
+	const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />);
 	const skeletons = [...new Array(6)].map((_, index) => (
 		<Skeleton key={index} />
 	));
@@ -57,10 +53,7 @@ const Home = () => {
 			<div className='content'>
 				<div className='container'>
 					<div className='content__top'>
-						<Categories
-							value={categoryId}
-							onClickCategory={i => onChangeCategory(i)}
-						/>
+						<Categories value={categoryId} onClickCategory={onChangeCategory} />
 						<Sort />
 					</div>
 					<h2 className='content__title'>Все пиццы</h2>

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSort, setSort } from '../redux/slices/filterSlice';
 
-function Sort() {
+const Sort: FC = () => {
 	const dispatch = useDispatch();
 	const sort = useSelector(selectSort);
 	const sortRef = React.useRef<HTMLDivElement>(null);
@@ -24,20 +24,6 @@ function Sort() {
 		dispatch(setSort(obj));
 		setOpen(false);
 	};
-	React.useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			const _event = event as MouseEvent & {
-				path: Node[];
-			};
-			if (sortRef.current && !_event.path.includes(sortRef.current)) {
-				setOpen(false);
-			}
-		};
-		document.body.addEventListener('click', handleClickOutside);
-		return () => {
-			document.body.removeEventListener('click', handleClickOutside);
-		};
-	}, []);
 	return (
 		<>
 			<div ref={sortRef} className='sort'>
@@ -77,6 +63,6 @@ function Sort() {
 			</div>
 		</>
 	);
-}
+};
 
 export default Sort;

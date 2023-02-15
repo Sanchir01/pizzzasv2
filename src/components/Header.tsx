@@ -5,7 +5,7 @@ import Search from './Search';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/slices/cartSlice';
 
-function Header() {
+const Header: React.FC = () => {
 	const { items, totalPrice } = useSelector(selectCart);
 	const location = useLocation();
 	const totalCount = items.reduce(
@@ -25,7 +25,7 @@ function Header() {
 							</div>
 						</div>
 					</Link>
-					<Search />
+					{location.pathname === '/' && <Search />}
 
 					{location.pathname === '/' && (
 						<div className='header__cart'>
@@ -69,6 +69,6 @@ function Header() {
 			</div>
 		</>
 	);
-}
+};
 
 export default Header;
